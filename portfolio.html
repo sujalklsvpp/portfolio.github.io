@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~/portfolio — SUJAL S</title>
+<meta name="description" content="Cyber Security Enthusiast | Aspiring Security Researcher | Music Lover | Literature Nerd | Tech Journalist">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080d14;
+  --bg2: #0d1520;
+  --bg3: #111c2e;
+  --surface: #0f1923;
+  --border: #1a2d42;
+  --green: #00ff88;
+  --green-dim: #00cc6a;
+  --teal: #00d4ff;
+  --purple: #bf7fff;
+  --amber: #ffb347;
+  --red: #ff4d6a;
+  --text: #c8daea;
+  --text-dim: #6a8099;
+  --text-bright: #e8f4ff;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --glow-green: 0 0 20px rgba(0,255,136,0.4);
+  --glow-teal: 0 0 20px rgba(0,212,255,0.3);
+  --glow-purple: 0 0 20px rgba(191,127,255,0.3);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+.cursor {
+  position: fixed; width: 10px; height: 10px; background: var(--green);
+  border-radius: 50%; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%); box-shadow: var(--glow-green);
+}
+.cursor-ring {
+  position: fixed; width: 32px; height: 32px; border: 1px solid rgba(0,255,136,0.4);
+  border-radius: 50%; pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+.cursor-ring.hovered { width: 48px; height: 48px; border-color: var(--teal); }
+
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9990;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.35;
+}
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9989;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.025) 2px, rgba(0,0,0,0.025) 4px);
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(8,13,20,0.93); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 48px;
+  font-family: var(--mono); font-size: 12px;
+}
+.nav-brand { color: var(--green); display: flex; align-items: center; gap: 4px; }
+.nav-brand .dim { color: var(--text-dim); }
+.nav-links { display: flex; }
+.nav-links a {
+  color: var(--text-dim); text-decoration: none; padding: 0 12px; height: 48px;
+  display: flex; align-items: center; transition: all 0.2s;
+  border-left: 1px solid transparent; font-size: 11px; letter-spacing: 0.04em;
+}
+.nav-links a:hover { color: var(--green); background: rgba(0,255,136,0.05); border-left-color: var(--border); }
+.nav-links a::before { content: './'; color: var(--green-dim); margin-right: 2px; }
+.nav-status { color: var(--text-dim); font-size: 11px; display: flex; align-items: center; gap: 6px; }
+.status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* HERO */
+#hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 80px 2rem 4rem; position: relative;
+  background: radial-gradient(ellipse at 15% 50%, rgba(0,255,136,0.035) 0%, transparent 55%),
+              radial-gradient(ellipse at 85% 25%, rgba(0,212,255,0.035) 0%, transparent 55%);
+}
+
+.terminal-window {
+  width: 100%; max-width: 860px;
+  background: var(--surface); border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 80px rgba(0,255,136,0.05), 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+  overflow: hidden;
+}
+.terminal-bar {
+  background: var(--bg2); padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dots { display: flex; gap: 7px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-r{background:#ff5f57} .dot-y{background:#febc2e} .dot-g{background:#28c840}
+.terminal-title { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin: 0 auto; }
+.terminal-body { padding: 28px 32px 36px; font-family: var(--mono); font-size: 13px; line-height: 1.8; }
+
+.t-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px; margin-bottom: 3px; }
+.pu{color:var(--green)} .pat{color:var(--text-dim)} .ph{color:var(--teal)} .pd{color:var(--purple)} .pc{color:var(--text-bright)}
+.t-dim{color:var(--text-dim);font-size:12px}
+
+.ascii-art {
+  color: var(--green); font-size: 9.5px; line-height: 1.25; white-space: pre;
+  margin: 18px 0 14px; text-shadow: var(--glow-green); letter-spacing: 0;
+  opacity: 0; transition: opacity 0.8s ease;
+}
+.hero-desc { color: var(--text); font-size: 13px; margin: 6px 0 22px; }
+.hero-desc .hg{color:var(--green)} .hero-desc .ht{color:var(--teal)} .hero-desc .hp{color:var(--purple)}
+.blink-cursor { display: inline-block; width: 8px; height: 15px; background: var(--green); animation: blink 1s step-end infinite; vertical-align: text-bottom; margin-left:2px; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; opacity:0; transition: opacity 0.5s ease; }
+.hero-btn {
+  font-family: var(--mono); font-size: 12px; padding: 7px 16px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text-dim); cursor: pointer; transition: all 0.2s; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px; border-radius: 3px;
+}
+.hero-btn:hover { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.05); box-shadow: var(--glow-green); }
+.hero-btn .hcmd { color: var(--green-dim); }
+
+/* SECTIONS */
+.sec { padding: 90px 2rem; max-width: 1100px; margin: 0 auto; }
+.sec-hdr { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 36px; }
+.sec-hdr .pu{color:var(--green)} .sec-hdr .ph{color:var(--teal)} .sec-hdr .pd{color:var(--purple)}
+.sec-hdr h2 { font-family: var(--mono); font-size: clamp(20px,3vw,30px); color: var(--text-bright); margin-top: 10px; font-weight:600; }
+.sec-hdr h2 span{color:var(--green)}
+.sec-div { width:55px; height:2px; background: linear-gradient(90deg, var(--green), transparent); margin-top:12px; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 275px; gap: 44px; align-items: start; }
+.about-term { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:26px 28px; }
+.about-term p { color:var(--text); font-size:14px; line-height:1.85; margin-bottom:14px; }
+.about-term p:last-child{margin-bottom:0}
+.about-term .hl{color:var(--teal)}
+.about-card { background:var(--surface); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.about-card-hdr { background:var(--bg2); padding:11px 16px; font-family:var(--mono); font-size:11px; color:var(--green); border-bottom:1px solid var(--border); }
+.fact-row { display:flex; justify-content:space-between; align-items:baseline; padding:8px 16px; border-bottom:1px solid var(--border); font-size:12px; }
+.fact-row:last-child{border-bottom:none}
+.fk{color:var(--text-dim);font-family:var(--mono)} .fv{color:var(--text-bright);text-align:right;max-width:155px;font-size:11.5px} .fv.green{color:var(--green)}
+
+/* SKILLS */
+.skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:18px; }
+.skill-box { background:var(--surface); border:1px solid var(--border); border-radius:6px; overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s; }
+.skill-box:hover{border-color:var(--green);box-shadow:var(--glow-green)}
+.skill-box-hdr { padding:13px 17px; background:var(--bg2); border-bottom:1px solid var(--border); font-family:var(--mono); font-size:12px; }
+.skill-box-body { padding:16px 17px; }
+.stag { display:inline-block; font-family:var(--mono); font-size:10.5px; padding:3px 9px; border-radius:3px; margin:3px; }
+.tg{background:rgba(0,255,136,0.08);color:var(--green);border:1px solid rgba(0,255,136,0.18)}
+.tt{background:rgba(0,212,255,0.08);color:var(--teal);border:1px solid rgba(0,212,255,0.18)}
+.tp{background:rgba(191,127,255,0.08);color:var(--purple);border:1px solid rgba(191,127,255,0.18)}
+.ta{background:rgba(255,179,71,0.08);color:var(--amber);border:1px solid rgba(255,179,71,0.18)}
+.bar-row{margin:7px 0}
+.bar-lbl{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);display:flex;justify-content:space-between;margin-bottom:4px}
+.bar-lbl span{color:var(--green)}
+.bar-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--teal));animation:growBar 1.4s ease forwards;width:0}
+@keyframes growBar{to{width:var(--w)}}
+
+/* PROJECTS */
+.proj-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filt{font-family:var(--mono);font-size:11px;padding:6px 15px;background:transparent;border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all 0.2s;border-radius:3px}
+.filt.active,.filt:hover{border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.05)}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:18px}
+.proj-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:22px;transition:all 0.25s;position:relative;overflow:hidden}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--teal));transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.proj-card:hover{border-color:rgba(0,255,136,0.25);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,0.4),var(--glow-green)}
+.proj-card:hover::before{transform:scaleX(1)}
+.ptype{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:9px}
+.pts{color:var(--green)} .ptm{color:var(--purple)} .ptw{color:var(--amber)} .ptr{color:var(--teal)}
+.ptitle{font-family:var(--mono);font-size:14px;color:var(--text-bright);margin-bottom:9px;font-weight:600}
+.pdesc{font-size:13px;color:var(--text-dim);line-height:1.65;margin-bottom:14px}
+.ptags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.plink{font-family:var(--mono);font-size:11px;color:var(--teal);text-decoration:none;display:inline-flex;align-items:center;gap:3px}
+.plink:hover{color:var(--green)}
+
+/* WRITING */
+.w-featured{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:30px;margin-bottom:20px;position:relative;overflow:hidden}
+.w-featured::after{content:'FEATURED';position:absolute;top:20px;right:-28px;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:9px;padding:3px 40px;transform:rotate(45deg);font-weight:800;letter-spacing:0.12em}
+.w-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:15px}
+.w-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px;transition:all 0.2s}
+.w-card:hover{border-color:rgba(255,179,71,0.35);box-shadow:0 0 20px rgba(255,179,71,0.08)}
+.wdate{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:6px}
+.wtitle{font-size:14px;font-weight:500;color:var(--text-bright);margin-bottom:7px;line-height:1.45}
+.wexc{font-size:12.5px;color:var(--text-dim);line-height:1.6;margin-bottom:12px}
+.wfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.wtags{display:flex;gap:3px;flex-wrap:wrap}
+.wt{font-family:var(--mono);font-size:9.5px;padding:2px 7px;border-radius:2px}
+.wts{background:rgba(0,255,136,0.08);color:var(--green)} .wto{background:rgba(191,127,255,0.08);color:var(--purple)}
+.wtt{background:rgba(0,212,255,0.08);color:var(--teal)} .wtm{background:rgba(255,179,71,0.08);color:var(--amber)}
+.wtf{background:rgba(255,77,106,0.08);color:var(--red)}
+.rlink{font-family:var(--mono);font-size:11px;color:var(--teal);text-decoration:none}
+.rlink:hover{color:var(--green)}
+
+/* RESEARCH */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:18px;margin-bottom:56px}
+.res-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:6px;padding:22px;transition:all 0.2s}
+.res-card:hover{box-shadow:var(--glow-teal);border-left-color:var(--green)}
+.rtopic{font-family:var(--mono);font-size:13.5px;color:var(--teal);font-weight:600;margin-bottom:9px}
+.rwhy{font-size:13px;color:var(--text-dim);margin-bottom:11px;line-height:1.65}
+.ract{font-family:var(--mono);font-size:11.5px;color:var(--green)}
+
+.tl-title{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-bottom:22px}
+.tl-track{position:relative;padding-left:30px}
+.tl-track::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(var(--green),var(--teal),var(--purple))}
+.tl-item{position:relative;margin-bottom:26px}
+.tl-item::before{content:'';position:absolute;left:-26px;top:5px;width:10px;height:10px;border-radius:50%;border:2px solid var(--green);background:var(--bg)}
+.tl-item.done::before{background:var(--green)}
+.tl-item.cur::before{background:var(--teal);border-color:var(--teal);box-shadow:var(--glow-teal)}
+.tl-lbl{font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+.tl-lbl.done{color:var(--green)} .tl-lbl.cur{color:var(--teal)}
+.tl-desc{font-size:12.5px;color:var(--text-dim);margin-top:3px}
+
+/* PASSIONS */
+#passions{background:radial-gradient(ellipse at 50% 0%,rgba(191,127,255,0.04) 0%,transparent 60%)}
+.pass-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.pass-panel{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.pass-hdr{padding:16px 20px;background:var(--bg2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+.pass-hdr .cmd{color:var(--purple)}
+.pass-body{padding:22px 20px}
+.pl-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all 0.2s}
+.pl-item:last-of-type{border-bottom:none}
+.pl-item:hover .pl-name{color:var(--green)}
+.pl-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.pl-name{font-size:13px;color:var(--text);font-weight:500}
+.pl-desc{font-size:11.5px;color:var(--text-dim)}
+.genre-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.book-item{padding:11px 0;border-bottom:1px solid var(--border)}
+.book-item:last-child{border-bottom:none}
+.btitle{font-size:13px;color:var(--text-bright);font-weight:500}
+.bauthor{font-size:11.5px;color:var(--text-dim);font-family:var(--mono)}
+.bnote{font-size:11.5px;color:var(--purple);font-style:italic;margin-top:3px}
+.eq-bars{display:flex;gap:3px;align-items:flex-end;height:28px;margin-top:18px}
+.eq-bar{width:5px;background:linear-gradient(to top,var(--green),var(--teal));border-radius:2px 2px 0 0;transition:height 0.3s ease}
+
+/* CONTACT */
+#contact{background:radial-gradient(ellipse at 50% 100%,rgba(0,255,136,0.03) 0%,transparent 60%)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.c-form{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.form-hdr{padding:13px 20px;background:var(--bg2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+.form-hdr span{color:var(--green)}
+.form-body{padding:22px}
+.field{margin-bottom:15px}
+.field label{font-family:var(--mono);font-size:11px;color:var(--text-dim);display:block;margin-bottom:5px}
+.field label::before{content:'> ';color:var(--green)}
+.field input,.field textarea{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text-bright);font-family:var(--mono);font-size:12.5px;padding:9px 13px;border-radius:3px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,255,136,0.09)}
+.field textarea{min-height:95px}
+.sub-btn{font-family:var(--mono);font-size:12.5px;padding:11px 24px;background:rgba(0,255,136,0.09);border:1px solid var(--green);color:var(--green);cursor:pointer;transition:all 0.2s;border-radius:3px;display:flex;align-items:center;gap:7px;width:100%;justify-content:center}
+.sub-btn:hover{background:rgba(0,255,136,0.16);box-shadow:var(--glow-green)}
+.c-info{display:flex;flex-direction:column;gap:18px}
+.soc-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.soc-link{display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--surface);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--text);transition:all 0.2s;font-size:12.5px}
+.soc-link:hover{border-color:var(--green);color:var(--green);background:rgba(0,255,136,0.04)}
+.soc-icon{font-size:17px}
+.pgp-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.pgp-hdr{padding:9px 15px;background:var(--bg2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--text-dim);display:flex;justify-content:space-between;align-items:center}
+.pgp-copy{font-size:10px;color:var(--green);cursor:pointer;background:none;border:1px solid var(--border);padding:2px 9px;border-radius:2px;font-family:var(--mono)}
+.pgp-copy:hover{border-color:var(--green)}
+.pgp-body{padding:13px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);line-height:1.7}
+
+/* EASTER TERMINAL */
+.et-wrap{position:fixed;bottom:80px;right:20px;width:355px;background:var(--surface);border:1px solid var(--green);border-radius:6px;font-family:var(--mono);font-size:12px;z-index:500;display:none;box-shadow:var(--glow-green)}
+.et-wrap.open{display:block}
+.et-hdr{padding:9px 15px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--text-dim)}
+.et-close{color:var(--text-dim);cursor:pointer;background:none;border:none;font-size:15px}
+.et-out{padding:13px;min-height:155px;max-height:235px;overflow-y:auto;color:var(--text-dim)}
+.et-out p{margin:2px 0}
+.et-out .ok{color:var(--green)} .et-out .inf{color:var(--teal)} .et-out .err{color:var(--red)} .et-out .wrn{color:var(--amber)}
+.et-in-row{padding:8px 13px;border-top:1px solid var(--border);display:flex;align-items:center;gap:5px}
+.et-prompt{color:var(--green);white-space:nowrap;font-size:11px}
+.et-inp{flex:1;background:none;border:none;color:var(--text-bright);font-family:var(--mono);font-size:12px;outline:none}
+.et-trigger{position:fixed;bottom:20px;right:20px;z-index:501;background:var(--surface);border:1px solid var(--green);border-radius:4px;font-family:var(--mono);font-size:12px;color:var(--green);padding:8px 16px;cursor:pointer;transition:all 0.2s;box-shadow:var(--glow-green)}
+.et-trigger:hover{background:rgba(0,255,136,0.1)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:22px 2rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;color:var(--text-dim);max-width:1100px;margin:0 auto}
+footer .fl{color:var(--green)}
+
+/* FADE */
+.fu{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease}
+.fu.vis{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .about-grid{grid-template-columns:1fr}
+  .pass-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .terminal-body{padding:16px;font-size:11.5px}
+  .ascii-art{font-size:6.5px}
+  .nav-links{display:none}
+  .nav-status{display:none}
+  .sec{padding:60px 1.2rem}
+}
+@media(max-width:480px){
+  .ascii-art{display:none}
+  .soc-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="nav-brand"><span class="dim">~/</span>SUJAl S</div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#skills">skills</a>
+    <a href="#projects">projects</a>
+    <a href="#writing">writing</a>
+    <a href="#research">research</a>
+    <a href="#passions">passions</a>
+    <a href="#contact">contact</a>
+  </div>
+  <div class="nav-status"><div class="status-dot"></div>online</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="terminal-window fu vis">
+    <div class="terminal-bar">
+      <div class="terminal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <div class="terminal-title">null_vector@kali: ~/portfolio — zsh</div>
+    </div>
+    <div class="terminal-body">
+      <div class="t-line">
+        <span class="pu">visitor</span><span class="pat">@</span><span class="ph">portfolio</span><span class="pd">:~$</span>
+        <span class="pc" id="typed-cmd"></span><span class="blink-cursor" id="hero-cursor"></span>
+      </div>
+      <pre class="ascii-art" id="ascii-block"><h1>SUJAl S SHIROLE </h1>
+</pre>
+
+      <div class="t-line" id="desc-line" style="opacity:0;transition:opacity 0.5s">
+        <span class="hero-desc">
+          <span class="hg">Cyber Security Enthusiast</span> · <span class="ht">Aspiring Security Researcher</span> · <span class="hp">Music Lover</span> · Literature Nerd · Tech Journalist
+        </span>
+      </div>
+      <div class="t-line" id="help-line" style="opacity:0;transition:opacity 0.5s">
+        <span class="pu">visitor</span><span class="pat">@</span><span class="ph">portfolio</span><span class="pd">:~$</span>
+        <span class="t-dim">&#35; Type 'help' in the terminal (↘) — or navigate below</span>
+      </div>
+      <div class="hero-nav" id="hero-nav">
+        <a href="#about" class="hero-btn"><span class="hcmd">./</span>about</a>
+        <a href="#skills" class="hero-btn"><span class="hcmd">./</span>skills</a>
+        <a href="#projects" class="hero-btn"><span class="hcmd">./</span>projects</a>
+        <a href="#writing" class="hero-btn"><span class="hcmd">./</span>writing</a>
+        <a href="#research" class="hero-btn"><span class="hcmd">./</span>research</a>
+        <a href="#passions" class="hero-btn"><span class="hcmd">./</span>passions</a>
+        <a href="#contact" class="hero-btn"><span class="hcmd">./</span>contact</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> cat about.txt</div>
+    <h2><span>#</span> About Me</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="about-grid fu">
+    <div class="about-term">
+      <p>It started with a question: <span class="hl">how does this thing actually work?</span> Then Slowly i started to realize that i could make computers do any work that i want and just as in Minecraft we say <span class="h1"><b>"I Realized I Could Become a God of My Machine"</b></span> Not just on the surface, but at the seams — the protocols, the handshakes, the tiny decisions that shape whether a system bends or breaks.</p>
+      <p>Code and Terminal became a medium of Communication. Vulnerable machines in a home lab became puzzles. Bug bounty reports became documentation of curiosity. Now, every layer of a network feels like a paragraph waiting to be read.</p>
+      <p>But I'm not just a technical person — I'm a <span class="hl">storyteller</span>. I write about security the way a journalist would: accessible, contextual, human. The most dangerous vulnerabilities are the ones no one understands well enough to talk about.</p>
+      <p>Music keeps me grounded. Literature keeps me honest. Research keeps me sharp. And at 2am, with headphones in and a terminal open, all of it comes together.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-card-hdr">$ cat quickfacts.json</div>
+      <div class="fact-row"><span class="fk">location</span><span class="fv green">Belagavi, INDIA 🇮🇳</span></div>
+      <div class="fact-row"><span class="fk">Name</span><span class="fv green">Sujal S</span></div>
+      <div class="fact-row"><span class="fk">Date Of Birth</span><span class="fv green">30-12-2007</span></div>
+      <div class="fact-row"><span class="fk">primary_os</span><span class="fv">Kali Linux + Windows</span></div>
+      <div class="fact-row"><span class="fk">editor</span><span class="fv">Constanly Switching</span></div>
+      <div class="fact-row"><span class="fk">focus</span><span class="fv">Research & Development</span></div>
+      <div class="fact-row"><span class="fk">music</span><span class="fv">Apple Music, YouTube, Patreon</span></div>
+      <div class="fact-row"><span class="fk">literature</span><span class="fv">Classical Literature, Regional, Novels, Poetry</span></div>
+      <div class="fact-row"><span class="fk">favorite Books</span><span class="fv">Norwegian Wood - Haruki Murakam , Metamorphosis - Franz kafka</span></div>
+      <div class="fact-row"><span class="fk">favorite Movies</span><span class="fv">Can't Talk about it, Memories Of the Murders - Bong Joon-ho</span></div>
+      <div class="fact-row"><span class="fk">Current Status</span><span class="fv green">Studying but open to work: true</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> ls -la skills/</div>
+    <h2><span>#</span> Skills &amp; Toolbelt</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="skills-grid fu">
+    <div class="skill-box">
+      <div class="skill-box-hdr" style="color:var(--green)">🛡️ &nbsp;Cyber Security</div>
+      <div class="skill-box-body">
+        <div class="bar-row"><div class="bar-lbl">Web App Pentesting<span>75%</span></div><div class="bar-track"><div class="bar-fill" style="--w:75%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Network Security<span>60%</span></div><div class="bar-track"><div class="bar-fill" style="--w:60%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">VAPT<span>85%</span></div><div class="bar-track"><div class="bar-fill" style="--w:85%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Reverse Engineering<span>52%</span></div><div class="bar-track"><div class="bar-fill" style="--w:52%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Threat Analysis<span>65%</span></div><div class="bar-track"><div class="bar-fill" style="--w:65%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">OS-INT<span>80%</span></div><div class="bar-track"><div class="bar-fill" style="--w:80%"></div></div></div>
+        <div style="margin-top:13px">
+          <span class="stag tg">Burp Suite</span><span class="stag tg">Nmap</span> <span class="stag tg">OS-INT</span><span class="stag tg">Metasploit</span><span class="stag tg">Wireshark</span><span class="stag tg">Kali</span>
+        </div>
+      </div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-hdr" style="color:var(--teal)">💻 &nbsp;Technical</div>
+      <div class="skill-box-body">
+        <div class="bar-row"><div class="bar-lbl">Python<span>82%</span></div><div class="bar-track"><div class="bar-fill" style="--w:82%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Bash / Shell<span>75%</span></div><div class="bar-track"><div class="bar-fill" style="--w:75%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Networking<span>65%</span></div><div class="bar-track"><div class="bar-fill" style="--w:65%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">hardware Maintanence<span>85%</span></div><div class="bar-track"><div class="bar-fill" style="--w:85%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">C / C++<span>60%</span></div><div class="bar-track"><div class="bar-fill" style="--w:60%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">JavaScript<span>65%</span></div><div class="bar-track"><div class="bar-fill" style="--w:65%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">SQL / Databases<span>58%</span></div><div class="bar-track"><div class="bar-fill" style="--w:58%"></div></div></div>
+        <div style="margin-top:13px">
+          <span class="stag tt">git</span> <span class="stag tt">GitHub</span><span class="stag tt">hardware</span><span class="stag tt">Docker</span><span class="stag tt">Linux</span><span class="stag tt">tcpdump</span>
+        </div>
+      </div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-hdr" style="color:var(--purple)">🎵 &nbsp;Creative (Co-Curriculars)</div>
+      <div class="skill-box-body">
+        <div class="bar-row"><div class="bar-lbl">Taekwondo<span>90%</span></div><div class="bar-track"><div class="bar-fill" style="--w:90%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Electric Guitar<span>60%</span></div><div class="bar-track"><div class="bar-fill" style="--w:60%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Graphics and Visuals<span>72%</span></div><div class="bar-track"><div class="bar-fill" style="--w:72%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Taste (in everything)<span>95%</span></div><div class="bar-track"><div class="bar-fill" style="--w:95%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Creative Writing / Poetry<span>65%</span></div><div class="bar-track"><div class="bar-fill" style="--w:65%"></div></div></div>
+        <div style="margin-top:13px">
+          <span class="stag tp">Scrite</span><span class="stag tp">Patreon</span><span class="stag tp">bandlabs</span><span class="stag tp">Apple music</span>
+        </div>
+      </div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-hdr" style="color:var(--amber)">✍️ &nbsp;Writing / Journalism</div>
+      <div class="skill-box-body">
+        <div class="bar-row"><div class="bar-lbl">Technical Writing<span>70%</span></div><div class="bar-track"><div class="bar-fill" style="--w:70%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Investigative Research<span>80%</span></div><div class="bar-track"><div class="bar-fill" style="--w:80%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Storytelling<span>82%</span></div><div class="bar-track"><div class="bar-fill" style="--w:82%"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Report &amp; Revision<span>85%</span></div><div class="bar-track"><div class="bar-fill" style="--w:85%"></div></div></div>
+        <div style="margin-top:13px">
+          <span class="stag ta">Markdown</span><span class="stag ta">LaTeX</span><span class="stag ta">Medium</span><span class="stag ta">Ghost</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> ls projects/ --filter=all</div>
+    <h2><span>#</span> Projects</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="proj-filters fu">
+    <button class="filt active" data-f="all">all</button>
+    <button class="filt" data-f="security">security</button>
+    <button class="filt" data-f="music">music</button>
+    <button class="filt" data-f="writing">writing</button>
+    <button class="filt" data-f="research">research</button>
+  </div>
+  <div class="proj-grid fu" id="proj-grid">
+    <div class="proj-card" data-cat="security">
+      <div class="ptype pts">⬡ security</div>
+      <div class="ptitle">HomeLab: Pentest Range</div>
+      <div class="pdesc">A local virtualized network of intentionally vulnerable machines for practicing exploitation, lateral movement, and post-exploitation across real CVEs.</div>
+      <div class="ptags"><span class="stag tg">VirtualBox</span><span class="stag tg">Metasploit</span><span class="stag tg">Kali</span></div>
+    <div class="proj-card" data-cat="security">
+      <div class="ptype pts">⬡ security</div>
+      <div class="ptitle">Phising simulator</div>
+      <div class="pdesc">A bash or linux tool made like Zphisher with numerous Clone sites to simulate and educate on Phising Attacks</div>
+      <div class="ptags"><span class="stag tg">Python</span><span class="stag tg">Nmap</span><span class="stag tg">Bash</span></div>
+    <div class="proj-card" data-cat="music">
+      <div class="ptype ptm">♩ music</div>
+      <div class="ptitle">Packet_Loss.wav</div>
+      <div class="pdesc">An original instrumental beat built around network packet sounds, Wireshark rhythms, and glitchy synths — produced during a 72-hour hackathon in FL Studio.</div>
+      <div class="ptags"><span class="stag tp">FL Studio</span><span class="stag tp">Original</span><span class="stag tp">Ambient</span></div>
+      <a href="#" class="plink">→ Unworthy of listening</a>
+    </div>
+    <div class="proj-card" data-cat="writing">
+      <div class="ptype ptw">✎ writing</div>
+      <div class="ptitle">The Anatomy of a Phishing Kit</div>
+      <div class="pdesc">A deep-dive investigative article on how modern phishing kits are built, who makes them, and how defenders can identify infrastructure patterns.</div>
+      <div class="ptags"><span class="stag ta">Medium</span><span class="stag ta">Investigation</span></div>
+    </div>
+    <div class="proj-card" data-cat="writing">
+      <div class="ptype ptw">✎ writing</div>
+      <div class="ptitle">ghost_in_the_wire (fiction)</div>
+      <div class="pdesc">A cyberpunk short story following a data courier navigating a fragmented internet controlled by megacorp DNS providers. A story about digital rights and surveillance.</div>
+      <div class="ptags"><span class="stag ta">Fiction</span>
+      <a href="#" class="plink">→ read story</a>
+    </div>
+    <div class="proj-card" data-cat="research">
+      <div class="ptype ptr">⌬ research</div>
+      <div class="ptitle">Malware Trend Landscape 2025</div>
+      <div class="pdesc">A structured literature review on evolving malware families — comparing ransomware-as-a-service developments and supply chain attack patterns across the year.</div>
+      <div class="ptags"><span class="stag tt">Lit Review</span><span class="stag tt">LaTeX</span><span class="stag tt">OSINT</span></div>
+    </div>
+    <div class="proj-card" data-cat="research">
+      <div class="ptype ptr">⌬ research</div>
+      <div class="ptitle">Security Audits - The dillema of the Indian Security Standards</div>
+      <div class="pdesc">A Report on What all i saw and experienced while working with various Firms(Freelance) Including Police , Ministry Of Home Affairs and State Intelligence</div>
+      <div class="ptags"><span class="stag tt">Annotations</span><span class="stag tt">Experiences</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section id="writing" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> tail -n 20 /var/log/writings.log</div>
+    <h2><span>#</span> Writing &amp; Journalism</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="w-featured fu">
+    <div class="wdate">2025-11-04 · 12 min read</div>
+    <div class="wtitle" style="font-size:19px;font-weight:600;color:var(--text-bright);margin-bottom:10px">The Exposure to Indian Government Cyber Sec</div>
+    <div class="wexc" style="font-size:14px">How I started with Cyber Sec tried pentesting a govt site and got a full hands-on experience with State Police In dealing the vulnerabilities of the Systems.</div>
+    <div class="wfoot" style="margin-top:14px">
+      <div class="wtags"><span class="wt wts">Cyber Security</span><span class="wt wto">Opinion</span><span class="wt wtt">Investigation</span></div>
+      <a href="#" class="rlink">read on Medium →</a>
+    </div>
+  </div>
+  <div class="w-grid fu">
+    <div class="w-card">
+      <div class="wdate">2025-09-17</div>
+      <div class="wtitle">What TryHackMe Taught Me About Learning (Not Just Hacking)</div>
+      <div class="wexc">A reflection on gamified learning, skill stacking, and why breaking simulated machines is one of the best ways to understand how real systems think.</div>
+      <div class="wfoot"><div class="wtags"><span class="wt wts">Security</span><span class="wt wto">Opinion</span></div><a href="#" class="rlink">read →</a></div>
+    </div>
+    <div class="w-card">
+      <div class="wdate">2025-08-02</div>
+      <div class="wtitle">Why Synthwave Belongs in the Security Community</div>
+      <div class="wexc">From Blade Runner to Mr. Robot — how retrofuturist music and hacker culture have been quietly intertwined all along.</div>
+      <div class="wfoot"><div class="wtags"><span class="wt wtm">Music</span><span class="wt wto">Opinion</span></div><a href="#" class="rlink">read →</a></div>
+    </div>
+    <div class="w-card">
+      <div class="wdate">2025-07-14</div>
+      <div class="wtitle">XSS for Everyone: A Beginner's Field Guide</div>
+      <div class="wexc">A clear, jargon-light walkthrough of Cross-Site Scripting — how it works, why it persists, and how to approach it methodically.</div>
+      <div class="wfoot"><div class="wtags"><span class="wt wts">Security</span><span class="wt wtt">Tutorial</span></div><a href="#" class="rlink">read →</a></div>
+    </div>
+    <div class="w-card">
+      <div class="wdate">2025-12-29</div>
+      <div class="wtitle">Hands-On Experiences with State Police and MHA in Providing Integrity and security to Legacy Systems</div>
+      <div class="wexc">What i learned and did while being a part of a CERT-in team trying to secure a Private firm with Government integration.</div>
+      <div class="wfoot"><div class="wtags"><span class="wt wtf">Fiction</span><span class="wt wts">Security</span></div><a href="#" class="rlink">read →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> cat lab_notes.md</div>
+    <h2><span>#</span> Research &amp; Curiosity</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="res-grid fu">
+    <div class="res-card">
+      <div class="rtopic">Web Application Security</div>
+      <div class="rwhy">The web is the most attacked surface in the world — and still one of the least understood by the developers building it. I'm drawn to the gap between what frameworks promise and what they actually protect.</div>
+      <div class="ract">▶ OWASP Top 10 deep-dives, PortSwigger Web Security Academy</div>
+    </div>
+    <div class="res-card">
+      <div class="rtopic">Digital Forensics</div>
+      <div class="rwhy">Every compromised system tells a story. Learning to reconstruct it — from log artifacts, memory dumps, and disk images — feels like investigative journalism for machines.</div>
+      <div class="ract">▶ Volatility framework, disk imaging tools, CTF forensics</div>
+    <div class="res-card">
+      <div class="rtopic">Privacy &amp; Surveillance Studies</div>
+      <div class="rwhy">Security is political. The tools we build and regulate determine who gets watched, by whom, and why. This intersection of tech and policy keeps me reading.</div>
+      <div class="ract">▶ EFF reports, metadata leakage in communications apps</div>
+    </div>
+    <div class="res-card">
+      <div class="rtopic">Malware Analysis</div>
+      <div class="rwhy">Understanding how malware thinks — persistence mechanisms, obfuscation, C2 channels — is the precondition to understanding how to defend against it.</div>
+      <div class="ract">▶ Any.run sandbox analysis, threat intel write-ups</div>
+    </div>
+    <div class="res-card">
+      <div class="rtopic">Cyber Psychology</div>
+      <div class="rwhy">Most breaches happen because of people, not code. Studying why humans make predictable decisions under uncertainty feels as important as any technical vulnerability.</div>
+      <div class="ract">▶ Behavioral security research, social engineering case studies</div>
+    </div>
+  </div>
+  <div class="fu">
+    <div class="tl-title">$ cat roadmap.txt — learning milestones</div>
+    <div class="tl-track">
+      <div class="tl-item done"><div class="tl-lbl done">✔ Networking &amp; Linux Fundamentals</div><div class="tl-desc">CompTIA-level foundations, TCP/IP model, socket programming, bash scripting</div></div>
+      <div class="tl-item done"><div class="tl-lbl done">✔ First CTF Completions</div><div class="tl-desc">TryHackMe beginner rooms, PicoCTF challenges, initial HackTheBox foothold</div></div>
+      <div class="tl-item done"><div class="tl-lbl done">✔ Home Lab + Web App Security</div><div class="tl-desc">DVWA, Metasploitable, OWASP learning path, Burp Suite fluency</div></div>
+      <div class="tl-item cur"><div class="tl-lbl cur">▶ Bug Bounty &amp; Real-World Testing (current)</div><div class="tl-desc">Scoping, recon automation, responsible disclosure workflow, first reports</div></div>
+      <div class="tl-item"><div class="tl-lbl">◌ Security Research Publication</div><div class="tl-desc">First whitepaper published — original findings, not just summaries</div></div>
+      <div class="tl-item"><div class="tl-lbl">◌ Conference Talk or Workshop</div><div class="tl-desc">Present at a local security meetup, null chapter, or student conference</div></div>
+      <div class="tl-item"><div class="tl-lbl">◌ Open-Source Security Tool Contribution</div><div class="tl-desc">Meaningful contribution to an active security project</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PASSIONS -->
+<section id="passions" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> access passions --music --literature</div>
+    <h2><span>#</span> Music &amp; Literature</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="pass-grid fu">
+    <div class="pass-panel">
+      <div class="pass-hdr"><span class="cmd">▶</span> music_playlists — active sessions</div>
+      <div class="pass-body">
+        <div class="pl-item">
+          <div class="pl-icon" style="background:rgba(0,255,136,0.1)">🖥️</div>
+          <div><div class="pl-name">Coding Sessions</div><div class="pl-desc">Lo-fi hip-hop · Deep focus beats · 4h 12m</div></div>
+        </div>
+        <div class="pl-item">
+          <div class="pl-icon" style="background:rgba(191,127,255,0.12)">⚡</div>
+          <div><div class="pl-name">MEDICOS</div><div class="pl-desc">Apple Music · Dark ambient · Cultural Mix · 2h 48m</div></div>
+        </div>
+        <div class="pl-item">
+          <div class="pl-icon" style="background:rgba(255,179,71,0.1)">🌙</div>
+          <div><div class="pl-name">Midnight Writing</div><div class="pl-desc">Post-rock · Ambient · Film scores · 3h 05m</div></div>
+        </div>
+        <div class="pl-item">
+          <div class="pl-icon" style="background:rgba(255,77,106,0.1)">🔊</div>
+          <div><div class="pl-name">Regional Tadka</div><div class="pl-desc">kannada · Marathi · other Regional · 1h 55m</div></div>
+        </div>
+        <div class="genre-tags">
+          <span class="stag tp">Composition</span><span class="stag tp">Classical</span><span class="stag tp">Metal</span><span class="stag tp">DHH</span><span class="stag tp">Qawwalis & URDU</span><span class="stag tp">Classical-Retro</span>
+        </div>
+        <div class="eq-bars" id="eq-bars"></div>
+      </div>
+    </div>
+    <div class="pass-panel">
+      <div class="pass-hdr"><span class="cmd">📚</span> reading_list.txt — curated shelf</div>
+      <div class="pass-body">
+        <div class="book-item">
+          <div class="btitle">Neuromancer</div>
+          <div class="bauthor">William Gibson · 1984</div>
+          <div class="bnote">Reads like a network trace. The original cyberpunk prophecy.</div>
+        </div>
+        <div class="book-item">
+          <div class="btitle">The Art of Intrusion</div>
+          <div class="bauthor">Kevin Mitnick · 2005</div>
+          <div class="bnote">Social engineering isn't a technique — it's a philosophy about trust.</div>
+        </div>
+        <div class="book-item">
+          <div class="btitle">Norwegian Wood</div>
+          <div class="bauthor">Haruki Murakami</div>
+          <div class="bnote">A Beautiful perspective on  Love, Life, Death and Friendship.</div>
+        </div>
+        <div class="book-item">
+          <div class="btitle">Metamorphosis</div>
+          <div class="bauthor">Franz kafka</div>
+          <div class="bnote">Just A mirror on the contemporary mindset and chaos.</div>
+        </div>
+        <div class="book-item">
+          <div class="btitle">Ghost in the Wires</div>
+          <div class="bauthor">Kevin Mitnick · 2011</div>
+          <div class="bnote">The original hacker story, told by the hacker. Part memoir, part manual.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="sec-hdr fu">
+    <div><span class="pu">visitor</span>@<span class="ph">portfolio</span>:<span class="pd">~$</span> ssh contact@null_vector.dev</div>
+    <h2><span>#</span> Get In Touch</h2>
+    <div class="sec-div"></div>
+  </div>
+  <div class="contact-grid fu">
+    <div>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:22px;line-height:1.85">Open to collaborations on security research, writing projects, music experiments, and academic work. Whether you want to build something, break something, or write about it — reach out.</p>
+      <div class="c-form">
+        <div class="form-hdr"><span>$</span> ./send_message.sh</div>
+        <div class="form-body">
+          <div class="field"><label>name</label><input type="text" placeholder="your handle or real name"></div>
+          <div class="field"><label>email</label><input type="email" placeholder="you@domain.com"></div>
+          <div class="field"><label>message</label><textarea placeholder="Hey, I'd love to collaborate on..."></textarea></div>
+          <button class="sub-btn" onclick="this.innerHTML='✓ &nbsp;message queued'">
+            <span>▶</span> send message
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="c-info">
+      <div class="soc-grid">
+        <a href="#" class="soc-link"><span class="soc-icon">⌥</span> GitHub : Nope not Public</a>
+        <a href="#" class="soc-link"><span class="soc-icon">◈</span> LinkedIn : Really In This Age</a>
+        <a href="#" class="soc-link"><span class="soc-icon">✗</span> Reddit : LordxPhantom</a>
+        <a href="#" class="soc-link"><span class="soc-icon">✎</span> Instagram : Phantom.Lite</a>
+        <a href="#" class="soc-link"><span class="soc-icon">♩</span> Whats app: +919741627722</a>
+      </div>
+      <div class="pgp-box">
+        <div class="pgp-hdr">
+          <span>PGP Public Key — null_vector</span>
+          <button class="pgp-copy" id="pgp-btn" onclick="copyPGP()">copy</button>
+        </div>
+        <div class="pgp-body">
+          -----BEGIN PGP PUBLIC KEY BLOCK-----<br>
+          mQINBGXxK2ABEADrQm9v7Q1zR8fN4pLmG9xH...<br>
+          QkFLVE9SIFBVQkxJQyBLRVkgQkxPQ0s+base=<br>
+          -----END PGP PUBLIC KEY BLOCK-----
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:9px">$ uptime && echo $STATUS</div>
+        <div style="font-family:var(--mono);font-size:12px;color:var(--green)">null_vector — always learning, always building; yet Mostly i am on a Break (dealing with Myself)</div>
+        <div style="font-family:var(--mono);font-size:11.5px;color:var(--text-dim);margin-top:5px">response_time: &lt; 48h &nbsp;·&nbsp; lang: EN / HI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><span class="fl">null_vector</span> · built with curiosity &amp; caffeine · 2007-Now</div>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim)">rm -rf imposter_syndrome/</div>
+</footer>
+
+<!-- EASTER EGG TERMINAL -->
+<button class="et-trigger" onclick="toggleET()">$ _</button>
+<div class="et-wrap" id="et-wrap">
+  <div class="et-hdr">
+    <span style="font-size:11px">interactive shell — null_vector</span>
+    <button class="et-close" onclick="toggleET()">✕</button>
+  </div>
+  <div class="et-out" id="et-out">
+    <p class="ok">Welcome. Type <span style="color:var(--teal)">help</span> to list commands.</p>
+  </div>
+  <div class="et-in-row">
+    <span class="et-prompt">visitor@portfolio:~$</span>
+    <input class="et-inp" id="et-inp" type="text" placeholder="type a command..." autocomplete="off" onkeydown="handleET(event)">
+  </div>
+</div>
+
+<script>
+// Custom cursor
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*0.13; ry+=(my-ry)*0.13;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.filt,.pl-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hovered'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hovered'));
+});
+
+// Hero typing
+const cmdEl = document.getElementById('typed-cmd');
+const heroC = document.getElementById('hero-cursor');
+const asciiEl = document.getElementById('ascii-block');
+const descEl = document.getElementById('desc-line');
+const helpEl = document.getElementById('help-line');
+const navEl = document.getElementById('hero-nav');
+const txt = 'welcome --user=visitor';
+let i=0;
+function typeIt(){
+  if(i<=txt.length){ cmdEl.textContent=txt.slice(0,i++); setTimeout(typeIt,55); }
+  else {
+    heroC.style.display='none';
+    asciiEl.style.opacity='1';
+    setTimeout(()=>{ descEl.style.opacity='1'; },700);
+    setTimeout(()=>{ helpEl.style.opacity='1'; },1300);
+    setTimeout(()=>{ navEl.style.opacity='1'; },1900);
+  }
+}
+setTimeout(typeIt,700);
+
+// Intersection observer
+const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); }),{threshold:0.1});
+document.querySelectorAll('.fu').forEach(el=>io.observe(el));
+
+// Project filter
+document.querySelectorAll('.filt').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filt').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.f;
+    document.querySelectorAll('.proj-card').forEach(c=>{
+      c.style.display=(f==='all'||c.dataset.cat===f)?'':'none';
+    });
+  });
+});
+
+// EQ bars
+const eq = document.getElementById('eq-bars');
+for(let j=0;j<22;j++){
+  const b=document.createElement('div'); b.className='eq-bar';
+  b.style.height=Math.random()*24+4+'px'; eq.appendChild(b);
+}
+setInterval(()=>{
+  document.querySelectorAll('.eq-bar').forEach(b=>b.style.height=Math.random()*24+4+'px');
+},380);
+
+// Easter egg terminal
+function toggleET(){
+  document.getElementById('et-wrap').classList.toggle('open');
+  if(document.getElementById('et-wrap').classList.contains('open')) document.getElementById('et-inp').focus();
+}
+
+function copyPGP(){
+  navigator.clipboard.writeText('-----BEGIN PGP PUBLIC KEY BLOCK-----\nmQINBGXxK2AB...\n-----END PGP PUBLIC KEY BLOCK-----');
+  document.getElementById('pgp-btn').textContent='copied!';
+  setTimeout(()=>document.getElementById('pgp-btn').textContent='copy',2000);
+}
+
+const cmds={
+  help:()=>[
+    {c:'inf',t:'Available commands:'},
+    {c:'ok',t:'  whoami         — display identity'},
+    {c:'ok',t:'  skills         — list all skills'},
+    {c:'ok',t:'  play-music     — current playlist'},
+    {c:'ok',t:'  read-logs      — recent writing'},
+    {c:'ok',t:'  run-ctf        — launch a challenge'},
+    {c:'ok',t:'  tools          — favorite tools'},
+    {c:'ok',t:'  quote          — random quote'},
+    {c:'ok',t:'  clear          — clear terminal'},
+    {c:'inf',t:'  ls / pwd / uname / date also work'},
+  ],
+  whoami:()=>[
+    {c:'ok',t:'null_vector'},
+    {c:'',t:'Cyber security enthusiast, writer, musician.'},
+    {c:'',t:'Location: Bengaluru, IN'},
+    {c:'',t:'OS: Kali Linux / Arch Linux'},
+    {c:'',t:'Pronouns: they/them or he/him'},
+  ],
+  skills:()=>[
+    {c:'inf',t:'[security]  web pentest · CTF · network sec · reversing'},
+    {c:'inf',t:'[code]      python · bash · C/C++ · javascript'},
+    {c:'inf',t:'[tools]     burpsuite · nmap · metasploit · wireshark'},
+    {c:'inf',t:'[writing]   tech journalism · fiction · research'},
+    {c:'inf',t:'[music]     fl studio · audio editing · curation'},
+  ],
+  'play-music':()=>[
+    {c:'ok',t:'▶ Now streaming: CTF Grind Playlist'},
+    {c:'',t:'Track: Carpenter Brut — Turbo Killer'},
+    {c:'',t:'Genre: Synthwave / Dark Electro'},
+    {c:'inf',t:'[Volume] ████████░░ 80%'},
+  ],
+  'read-logs':()=>[
+    {c:'inf',t:'Recent entries in writings.log:'},
+    {c:'',t:'2025-11-04 · The Human Router (investigation)'},
+    {c:'',t:'2025-09-17 · What TryHackMe Taught Me'},
+    {c:'',t:'2025-08-02 · Synthwave & Security Culture'},
+    {c:'',t:'2025-07-14 · XSS for Everyone (tutorial)'},
+  ],
+  'run-ctf':()=>[
+    {c:'wrn',t:'Initializing virtual pentest lab...'},
+    {c:'wrn',t:'Loading: HackTheBox Fortress instance...'},
+    {c:'err',t:'ERROR: Caffeine levels critical. Brew first.'},
+    {c:'inf',t:'hint: check /projects/security for real write-ups'},
+  ],
+  tools:()=>[
+    {c:'ok',t:'$ which tools'},
+    {c:'',t:'burpsuite · nmap · metasploit · wireshark'},
+    {c:'',t:'gobuster · dirsearch · sqlmap · john'},
+    {c:'',t:'hashcat · volatility · binwalk · strings'},
+    {c:'',t:'nvim · tmux · git · docker · python3'},
+  ],
+  quote:()=>{
+    const q=[
+      '"The quieter you become, the more you are able to hear." — Kali Linux motto',
+      '"Offense informs defense." — every red teamer ever',
+      '"The best way to predict the future is to hack it."',
+      '"All warfare is based on deception." — Sun Tzu, proto-OSINT',
+      '"Privacy is not something that I\'m merely entitled to, it\'s an absolute prerequisite." — Marlon Brando',
+    ];
+    return [{c:'inf',t:q[Math.floor(Math.random()*q.length)]}];
+  },
+  ls:()=>[{c:'ok',t:'about.txt  skills/  projects/  writing.log  research/  passions/  contact.sh'}],
+  pwd:()=>[{c:'ok',t:'/home/null_vector/portfolio'}],
+  uname:()=>[{c:'ok',t:'Linux kali 6.1.0-kali9-amd64 #1 SMP Debian GNU/Linux'}],
+  date:()=>[{c:'ok',t:new Date().toString()}],
+  clear:()=>'CLEAR',
+};
+
+function handleET(e){
+  if(e.key!=='Enter') return;
+  const inp=document.getElementById('et-inp');
+  const out=document.getElementById('et-out');
+  const cmd=inp.value.trim().toLowerCase();
+  inp.value='';
+  if(!cmd) return;
+  const echo=document.createElement('p');
+  echo.style.color='var(--text-bright)';
+  echo.textContent='visitor@portfolio:~$ '+cmd;
+  out.appendChild(echo);
+  const fn=cmds[cmd];
+  if(fn){
+    const res=fn();
+    if(res==='CLEAR'){out.innerHTML='';return;}
+    res.forEach(({c,t})=>{
+      const p=document.createElement('p');
+      if(c) p.className=c;
+      p.textContent=t; out.appendChild(p);
+    });
+  } else {
+    const p=document.createElement('p');
+    p.className='err';
+    p.textContent=`command not found: ${cmd}. Try 'help'.`;
+    out.appendChild(p);
+  }
+  out.scrollTop=out.scrollHeight;
+}
+</script>
+</body>
+</html>
